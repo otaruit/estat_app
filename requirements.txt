@@ -1,0 +1,6 @@
+json
+jpy_datareader
+pandas
+matplotlib.pyplot
+japanize_matplotlib
+streamlit

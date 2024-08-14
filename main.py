@@ -3,38 +3,50 @@ import jpy_datareader as jdr
 import pandas as pd
 import matplotlib.pyplot as plt
 import japanize_matplotlib
+import streamlit as st
 
+# 環境変数の読み込み
 with open('env.json', 'r') as f:
     env_vars = json.load(f)
 
 api_key = env_vars['API_KEY']
 df = jdr.get_data_estat_statsdata(api_key, statsDataId="0003293502")
 
-df_filtered = df[
-    (df['性別'] == '女子') &
-    (df['体格測定・テスト項目'] == 'テスト_10m障害物歩行（秒）')
-]
+# ドロップダウンメニューの作成
+df_test_items_unique = df['体格測定・テスト項目'].unique()
+selected_test_item = st.selectbox('体格測定・テスト項目を選択してください', df_test_items_unique)
 
-df_grouped = df_filtered.groupby(['運動部・スポーツクラブ所属', '時間軸(年度次)'])['平均値'].mean().unstack()
+# 比較項目の選択
+comparison_item = st.selectbox('比較する項目を選択してください', ['性別', '運動部・スポーツクラブ所属'])
 
+# 年齢の選択
+age_options = df['運動テスト年齢'].unique().tolist()  # ユニークな年齢のリストを取得
+age_options.append('全年齢の平均')  # 全年齢平均を追加
+age_selection = st.selectbox('年齢を選択してください', age_options)
+
+# データのフィルタリング
+df_filtered = df[df['体格測定・テスト項目'] == selected_test_item]
+
+if age_selection == '全年齢の平均':
+    # 全年齢の平均を計算
+    df_grouped = df_filtered.groupby([comparison_item, '時間軸(年度次)'])['平均値'].mean().unstack()
+    title_suffix = '全年齢平均'
+else:
+    # 年齢ごとのデータを集計
+    df_filtered = df_filtered[df_filtered['運動テスト年齢'] == age_selection]
+    df_grouped = df_filtered.groupby([comparison_item, '時間軸(年度次)'])['平均値'].mean().unstack()
+    title_suffix = f'{age_selection} 別'
+
+# 折れ線グラフの作成
 fig, ax = plt.subplots(figsize=(12, 6))
 
-bar_width = 0.4
-years = df_grouped.columns
-r1 = range(len(years))
-r2 = [x + bar_width for x in r1]
-
-bars1 = ax.bar(r1, df_grouped.loc['所属していない'], color='skyblue', width=bar_width, edgecolor='grey', label='所属していない')
-bars2 = ax.bar(r2, df_grouped.loc['所属している'], color='salmon', width=bar_width, edgecolor='grey', label='所属している')
+# グラフの作成
+df_grouped.T.plot(ax=ax, marker='o')
 
 ax.set_xlabel('年度')
 ax.set_ylabel('平均値')
-ax.set_title('テスト_10m障害物歩行（秒） 年度別: 所属している vs 所属していない')
-ax.set_xticks([x + bar_width / 2 for x in r1])
-ax.set_xticklabels(years)
-ax.legend()
-ax.set_ylim(6.5, 8)
+ax.set_title(f'{selected_test_item} の {comparison_item} 別平均値 ({title_suffix})')
+ax.legend(title=comparison_item)
 
-
-# st.pyplot(fig)
-plt.show()
+# Streamlitでの表示
+st.pyplot(fig)

@@ -9,7 +9,7 @@ import streamlit as st
 with open('env.json', 'r') as f:
     env_vars = json.load(f)
 
-api_key = env_vars['API_KEY']
+api_key = st.secrets["API_KEY"]
 df = jdr.get_data_estat_statsdata(api_key, statsDataId="0003293502")
 
 # ドロップダウンメニューの作成

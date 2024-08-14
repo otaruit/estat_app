@@ -37,16 +37,20 @@ else:
     df_grouped = df_filtered.groupby([comparison_item, '時間軸(年度次)'])['平均値'].mean().unstack()
     title_suffix = f'{age_selection} 別'
 
-# 折れ線グラフの作成
-fig, ax = plt.subplots(figsize=(12, 6))
+# データが存在しない場合のチェック
+if df_grouped.empty:
+    st.write("データがありません。条件を変更して再試行してください。")
+else:
+    # 折れ線グラフの作成
+    fig, ax = plt.subplots(figsize=(12, 6))
 
-# グラフの作成
-df_grouped.T.plot(ax=ax, marker='o')
+    # グラフの作成
+    df_grouped.T.plot(ax=ax, marker='o')
 
-ax.set_xlabel('年度')
-ax.set_ylabel('平均値')
-ax.set_title(f'{selected_test_item} の {comparison_item} 別平均値 ({title_suffix})')
-ax.legend(title=comparison_item)
+    ax.set_xlabel('年度')
+    ax.set_ylabel('平均値')
+    ax.set_title(f'{selected_test_item} の {comparison_item} 別平均値 ({title_suffix})')
+    ax.legend(title=comparison_item)
 
-# Streamlitでの表示
-st.pyplot(fig)
+    # Streamlitでの表示
+    st.pyplot(fig)

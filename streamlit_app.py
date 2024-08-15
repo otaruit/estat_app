@@ -1,12 +1,17 @@
 import jpy_datareader as jdr
 import pandas as pd
 import matplotlib.pyplot as plt
+from matplotlib import font_manager
 import streamlit as st
 import json
 
-# font_path = 'DelaSukoGothicOne-R.otf'
-# font_manager.fontManager.addfont(font_path)
-# plt.rcParams['font.family'] = 'Your Font Name'
+
+# 日本語フォントのパスを指定
+font_path = 'fonts/ipag.ttf'
+font_prop = font_manager.FontProperties(fname=font_path)
+
+# グラフ全体に日本語フォントを適用
+plt.rcParams['font.family'] = font_prop.get_name()
 
 with open('env.json', 'r') as f:
     env_vars = json.load(f)

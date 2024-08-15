@@ -3,7 +3,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import streamlit as st
 import json
-import japanize_matplotlib 
 
 # font_path = 'DelaSukoGothicOne-R.otf'
 # font_manager.fontManager.addfont(font_path)

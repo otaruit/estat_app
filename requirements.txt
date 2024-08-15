@@ -1,5 +1,5 @@
 jpy_datareader
 pandas
 matplotlib
-japanize_matplotlib
+japanize-matplotlib>=1.1.3
 streamlit

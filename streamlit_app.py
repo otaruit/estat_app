@@ -6,15 +6,11 @@ import streamlit as st
 import json
 
 
-# 日本語フォントのパスを指定
 font_path = 'fonts/ipag.ttf'
 font_prop = font_manager.FontProperties(fname=font_path)
 
-# グラフ全体に日本語フォントを適用
 plt.rcParams['font.family'] = font_prop.get_name()
 
-with open('env.json', 'r') as f:
-    env_vars = json.load(f)
 
 api_key = st.secrets["API_KEY"]
 df = jdr.get_data_estat_statsdata(api_key, statsDataId="0003293502")
@@ -24,8 +20,8 @@ selected_test_item = st.selectbox('体格測定・テスト項目を選択して
 
 comparison_item = st.selectbox('比較する項目を選択してください', ['性別', '運動部・スポーツクラブ所属'])
 
-age_options = df['運動テスト年齢'].unique().tolist()  # ユニークな年齢のリストを取得
-age_options.append('全年齢の平均')  # 全年齢平均を追加
+age_options = df['運動テスト年齢'].unique().tolist() 
+age_options.append('全年齢の平均')  
 age_selection = st.selectbox('年齢を選択してください', age_options)
 
 df_filtered = df[df['体格測定・テスト項目'] == selected_test_item]
@@ -50,5 +46,4 @@ else:
     ax.set_title(f'{selected_test_item} の {comparison_item} 別平均値 ({title_suffix})')
     ax.legend(title=comparison_item)
 
-    # Streamlitでの表示
     st.pyplot(fig)

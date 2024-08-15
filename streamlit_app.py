@@ -1,4 +1,3 @@
-import json
 import jpy_datareader as jdr
 import pandas as pd
 import matplotlib.pyplot as plt

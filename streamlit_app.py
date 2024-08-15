@@ -6,6 +6,7 @@ import streamlit as st
 import json
 
 
+
 font_path = 'fonts/ipag.ttf'
 font_prop = font_manager.FontProperties(fname=font_path)
 
@@ -46,4 +47,4 @@ else:
     ax.set_title(f'{selected_test_item} の {comparison_item} 別平均値 ({title_suffix})')
     ax.legend(title=comparison_item)
 
-    st.pyplot(fig)
+    st.pyplot(fig,font_path=font_path)

@@ -2,7 +2,7 @@ import jpy_datareader as jdr
 import pandas as pd
 import matplotlib.pyplot as plt
 import streamlit as st
-from matplotlib import font_manager, rcParams
+from matplotlib import font_manager
 
 st.markdown(
     """
@@ -14,12 +14,10 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# 日本語フォントを設定
 font_path = 'fonts/ipaexg.ttf'
 font_prop = font_manager.FontProperties(fname=font_path)
 
-# グローバルな設定にフォントを適用
-rcParams['font.family'] = font_prop.get_name()
+
 
 api_key = st.secrets["API_KEY"]
 df = jdr.get_data_estat_statsdata(api_key, statsDataId="0003293502")

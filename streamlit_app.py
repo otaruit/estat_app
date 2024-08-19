@@ -4,6 +4,16 @@ import matplotlib.pyplot as plt
 import streamlit as st
 from matplotlib import font_manager, rcParams
 
+st.markdown(
+    """
+    政府データをAPIで取得して分析してみようアプリ
+
+    https://www.e-stat.go.jp/
+    政府統計コード＝0003293502　のデータを使用
+    """, 
+    unsafe_allow_html=True
+)
+
 # 日本語フォントを設定
 font_path = 'fonts/ipaexg.ttf'
 font_prop = font_manager.FontProperties(fname=font_path)
@@ -33,6 +43,8 @@ else:
     df_grouped = df_filtered.groupby([comparison_item, '時間軸(年度次)'])['平均値'].mean().unstack()
     title_suffix = f'{age_selection} 別'
 
+
+
 if df_grouped.empty:
     st.write("データがありません。条件を変更して再試行してください。")
 else:
@@ -40,16 +52,13 @@ else:
 
     df_grouped.T.plot(ax=ax, marker='o')
 
-    # 軸ラベルとタイトルにフォントプロパティを適用
     ax.set_xlabel('年度', fontproperties=font_prop)
     ax.set_ylabel('平均値', fontproperties=font_prop)
     ax.set_title(f'{selected_test_item} の {comparison_item} 別平均値 ({title_suffix})', fontproperties=font_prop)
     
-    # 凡例のラベルにもフォントプロパティを適用
     legend = ax.legend(title=comparison_item, prop=font_prop, loc='best')
-    plt.setp(legend.get_texts(), fontproperties=font_prop)  # 凡例の各ラベルにフォントを適用
+    plt.setp(legend.get_texts(), fontproperties=font_prop)
 
-    # 年度ラベル（横軸）と目盛りラベルのフォントプロパティを設定
     plt.xticks(fontproperties=font_prop)
     plt.yticks(fontproperties=font_prop)
 

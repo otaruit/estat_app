@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import streamlit as st
 from matplotlib import font_manager
 
-font_path = 'fonts/Koruri-Regular.ttf'
+font_path = 'fonts/ipaexg.ttf'
 font_prop = font_manager.FontProperties(fname=font_path)
 plt.rcParams['font.family'] = font_prop.get_name()
 

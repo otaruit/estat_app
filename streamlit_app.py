@@ -2,14 +2,12 @@ import jpy_datareader as jdr
 import pandas as pd
 import matplotlib.pyplot as plt
 import streamlit as st
-import matplotlib.font_manager as fm
+from matplotlib import font_manager
 
-# システムにインストールされているフォントの一覧を表示
-for font in fm.findSystemFonts():
-    print(fm.FontProperties(fname=font).get_name())
+font_path = 'fonts/Koruri-Regular.ttf'
+font_prop = font_manager.FontProperties(fname=font_path)
+plt.rcParams['font.family'] = font_prop.get_name()
 
-# 使用するフォントが見つかった場合、そのフォントを設定
-plt.rcParams['font.family'] = 'Yu Gothic'
 
 
 api_key = st.secrets["API_KEY"]

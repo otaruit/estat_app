@@ -7,10 +7,10 @@ import json
 
 
 
-font_path = 'fonts/ipag.ttf'
-font_prop = font_manager.FontProperties(fname=font_path)
+# font_path = 'fonts/ipag.ttf'
+# font_prop = font_manager.FontProperties(fname=font_path)
 
-plt.rcParams['font.family'] = font_prop.get_name()
+# plt.rcParams['font.family'] = font_prop.get_name()
 
 
 api_key = st.secrets["API_KEY"]

@@ -4,11 +4,9 @@ import matplotlib.pyplot as plt
 import streamlit as st
 from matplotlib import font_manager, rcParams
 
-# 日本語フォントを設定
-font_path = 'fonts/ipaexg.ttf'  # 日本語フォントファイルのパス
+font_path = 'fonts/ipaexg.ttf'  
 font_prop = font_manager.FontProperties(fname=font_path)
 
-# グローバルな設定にフォントを適用
 rcParams['font.family'] = font_prop.get_name()
 
 api_key = st.secrets["API_KEY"]
@@ -43,6 +41,10 @@ else:
     ax.set_xlabel('年度', fontproperties=font_prop)
     ax.set_ylabel('平均値', fontproperties=font_prop)
     ax.set_title(f'{selected_test_item} の {comparison_item} 別平均値 ({title_suffix})', fontproperties=font_prop)
+    
     ax.legend(title=comparison_item, prop=font_prop)
+
+    plt.xticks(fontproperties=font_prop)
+    plt.yticks(fontproperties=font_prop)
 
     st.pyplot(fig)

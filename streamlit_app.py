@@ -47,4 +47,4 @@ else:
     ax.set_title(f'{selected_test_item} の {comparison_item} 別平均値 ({title_suffix})')
     ax.legend(title=comparison_item)
 
-    st.pyplot(fig,font_path=font_path)
+    # st.pyplot(fig,font_path=font_path)

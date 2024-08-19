@@ -4,9 +4,11 @@ import matplotlib.pyplot as plt
 import streamlit as st
 from matplotlib import font_manager, rcParams
 
-font_path = 'fonts/ipaexg.ttf'  
+# 日本語フォントを設定
+font_path = 'fonts/ipaexg.ttf'
 font_prop = font_manager.FontProperties(fname=font_path)
 
+# グローバルな設定にフォントを適用
 rcParams['font.family'] = font_prop.get_name()
 
 api_key = st.secrets["API_KEY"]
@@ -38,12 +40,16 @@ else:
 
     df_grouped.T.plot(ax=ax, marker='o')
 
+    # 軸ラベルとタイトルにフォントプロパティを適用
     ax.set_xlabel('年度', fontproperties=font_prop)
     ax.set_ylabel('平均値', fontproperties=font_prop)
     ax.set_title(f'{selected_test_item} の {comparison_item} 別平均値 ({title_suffix})', fontproperties=font_prop)
     
-    ax.legend(title=comparison_item, prop=font_prop)
+    # 凡例のラベルにもフォントプロパティを適用
+    legend = ax.legend(title=comparison_item, prop=font_prop, loc='best')
+    plt.setp(legend.get_texts(), fontproperties=font_prop)  # 凡例の各ラベルにフォントを適用
 
+    # 年度ラベル（横軸）と目盛りラベルのフォントプロパティを設定
     plt.xticks(fontproperties=font_prop)
     plt.yticks(fontproperties=font_prop)
 

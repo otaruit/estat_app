@@ -2,10 +2,14 @@ import jpy_datareader as jdr
 import pandas as pd
 import matplotlib.pyplot as plt
 import streamlit as st
-from matplotlib import font_manager
+from matplotlib import font_manager, rcParams
 
-font_path = 'fonts/ipaexg.ttf'
+# 日本語フォントを設定
+font_path = 'fonts/ipaexg.ttf'  # 日本語フォントファイルのパス
 font_prop = font_manager.FontProperties(fname=font_path)
+
+# グローバルな設定にフォントを適用
+rcParams['font.family'] = font_prop.get_name()
 
 api_key = st.secrets["API_KEY"]
 df = jdr.get_data_estat_statsdata(api_key, statsDataId="0003293502")
@@ -15,8 +19,8 @@ selected_test_item = st.selectbox('体格測定・テスト項目を選択して
 
 comparison_item = st.selectbox('比較する項目を選択してください', ['性別', '運動部・スポーツクラブ所属'])
 
-age_options = df['運動テスト年齢'].unique().tolist() 
-age_options.append('全年齢の平均')  
+age_options = df['運動テスト年齢'].unique().tolist()
+age_options.append('全年齢の平均')
 age_selection = st.selectbox('年齢を選択してください', age_options)
 
 df_filtered = df[df['体格測定・テスト項目'] == selected_test_item]
@@ -38,7 +42,7 @@ else:
 
     ax.set_xlabel('年度')
     ax.set_ylabel('平均値')
-    ax.set_title(f'{selected_test_item} の {comparison_item} 別平均値 ({title_suffix})')
-    ax.legend(title=comparison_item)
+    ax.set_title(f'{selected_test_item} の {comparison_item} 別平均値 ({title_suffix})', fontproperties=font_prop)
+    ax.legend(title=comparison_item, prop=font_prop)
 
-    st.pyplot(fig,font_properties=font_prop)
+    st.pyplot(fig)

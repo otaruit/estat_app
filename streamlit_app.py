@@ -6,9 +6,6 @@ from matplotlib import font_manager
 
 font_path = 'fonts/ipaexg.ttf'
 font_prop = font_manager.FontProperties(fname=font_path)
-plt.rcParams['font.family'] = font_prop.get_name()
-
-
 
 api_key = st.secrets["API_KEY"]
 df = jdr.get_data_estat_statsdata(api_key, statsDataId="0003293502")
@@ -44,4 +41,4 @@ else:
     ax.set_title(f'{selected_test_item} の {comparison_item} 別平均値 ({title_suffix})')
     ax.legend(title=comparison_item)
 
-    st.pyplot(fig)
+    st.pyplot(fig,font_properties=font_prop)
